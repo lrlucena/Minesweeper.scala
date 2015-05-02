@@ -11,8 +11,7 @@ object Game1 {
   type Board = List[List[Cell]]
   implicit class BoardUpdate(board: Board) {
     def update(x: Int, y: Int, value: Cell) = board.updated(x, board(x).updated(y, value))
-  }
-}
+} }
 
 class Game(val rows: Int, val columns: Int, val bombs: Int, boardc: Option[Board] = None) {
   val board = boardc getOrElse initBoard
@@ -31,11 +30,10 @@ class Game(val rows: Int, val columns: Int, val bombs: Int, boardc: Option[Board
       j <- 0 until columns
     ) yield (r.nextDouble -> (i, j))
     val bombs = points sortBy { _._1 } map { _._2 } take quantity
-    bombs.foldLeft(board)((board, tuple) => {
-      val (x, y) = tuple
-      board.update(x, y, Bomb(false))
-    })
-  }
+    bombs.foldLeft(board){
+      case (board, (x,y)) => {
+        board.update(x, y, Bomb(false))
+  } } }
   //end of bombs
 
   //hints
@@ -44,8 +42,7 @@ class Game(val rows: Int, val columns: Int, val bombs: Int, boardc: Option[Board
       board(x)(y) match {
         case Bomb(b) => Bomb(b)
         case _       => initHint(board, x, y)
-      }
-    }
+    } }
 
   private def initHint(boardWithBombs: Board, x: Int, y: Int) = {
     val neighborCells = for (
@@ -60,8 +57,7 @@ class Game(val rows: Int, val columns: Int, val bombs: Int, boardc: Option[Board
     hintValue match {
       case 0 => Empty(false)
       case v => Hint(false, v)
-    }
-  }
+  } }
   //end of hints
 
   //game behavior
@@ -80,11 +76,10 @@ class Game(val rows: Int, val columns: Int, val bombs: Int, boardc: Option[Board
     ) yield (i, j)
 
     val newGame = update(x, y, Empty(true))
-    neighborPositions.foldLeft(newGame)((game, tuple) => {
-      val (x, y) = tuple
-      game.showCell(x, y)
-    })
-  }
+    neighborPositions.foldLeft(newGame){
+      case (game, (x,y)) => {
+        game.showCell(x, y)
+  } } }
 
   def hasOnlyBombs = !board.flatten.exists {
     case Empty(false) | Hint(false, _) => true
