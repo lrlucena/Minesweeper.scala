@@ -1,6 +1,4 @@
-import java.util.Random
 import Game1._
-import scala.annotation.tailrec
 
 sealed abstract class Cell { val shown: Boolean }
 case class Bomb(shown: Boolean = false) extends Cell
@@ -24,7 +22,7 @@ class Game(val rows: Int, val columns: Int, val bombs: Int, boardc: Option[Board
 
   //bombs
   private def initBombs(quantity: Int, board: Board) = {
-    val r = new Random
+    val r = new java.util.Random
     val points = for (
       i <- 0 until rows;
       j <- 0 until columns
